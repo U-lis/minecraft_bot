@@ -132,4 +132,5 @@ dmypy.json
 .idea/
 
 # Python server
+settings.py
 servers.json
