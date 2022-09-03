@@ -1,7 +1,5 @@
 import json
 import os.path
-from json import JSONDecodeError
-from pathlib import Path
 
 import discord
 from discord.ext import commands
