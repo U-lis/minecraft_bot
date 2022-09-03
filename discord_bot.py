@@ -103,6 +103,26 @@ async def server_info(ctx, *, server_name: str):
     await ctx.send(msg)
 
 
+@bot.command(name="delete_server")
+async def delete_server(ctx, *, server_name: str):
+    data = load_server_data()
+    target_index = None
+
+    for i, d in enumerate(data):
+        if d["name"] == server_name:
+            target_index = i
+            break
+
+    if target_index is None:
+        msg = f"Cannot find server named {server_name}. \nCheck server name using command `!server_list`"
+    else:
+        del data[target_index]
+        save_server_data(data)
+        msg = f"Requested server `{server_name}` has been deleted."
+
+    await ctx.send(msg)
+
+
 @bot.command(name="cmd")
 async def help_function(ctx):
     print_list = [
@@ -123,6 +143,9 @@ async def help_function(ctx):
         "    [SEED] : The seed of minecraft server. ",
         "             This is important information to use various tools.",
         "  server_info [SERVER_NAME]            : Returns server information.",
+        "    [SERVER_NAME] : Server name used when add server.",
+        "                    You can get server name using `!server_list command.`",
+        "  delete_sever [SERVER_NAME]           : Deletes server information",
         "    [SERVER_NAME] : Server name used when add server.",
         "                    You can get server name using `!server_list command.`",
         "```",
