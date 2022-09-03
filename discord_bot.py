@@ -66,6 +66,43 @@ async def get_server_list(ctx):
         )
 
 
+@bot.command(name="server_info")
+async def server_info(ctx, *, server_name: str):
+    data = load_server_data()
+    target_server = None
+
+    for d in data:
+        if d["name"] == server_name:
+            target_server = d
+            break
+
+    if not target_server:
+        msg = f"Cannot find server named {server_name}. \nCheck server name using command `!server_list`"
+    else:
+        try:
+            msg_list = [
+                "```",
+                "=== Server Info ===",
+                f"Name        : {target_server['name']}",
+                f"Access Info : {target_server['ip']}:{target_server['port']}",
+                f"Seed        : {target_server['seed']}",
+                "```",
+            ]
+            msg = "\n".join(msg_list)
+        except:
+            msg = "\n".join(
+                [
+                    f"An error occurred. Please contact to admin.(@ulismoon)",
+                    "```",
+                    "cmd         : server_info",
+                    f"server_name : {server_name}"
+                    "```",
+                ]
+            )
+
+    await ctx.send(msg)
+
+
 @bot.command(name="cmd")
 async def help_function(ctx):
     print_list = [
@@ -85,6 +122,9 @@ async def help_function(ctx):
         "             You can identify server by this name.",
         "    [SEED] : The seed of minecraft server. ",
         "             This is important information to use various tools.",
+        "  server_info [SERVER_NAME]            : Returns server information.",
+        "    [SERVER_NAME] : Server name used when add server.",
+        "                    You can get server name using `!server_list command.`",
         "```",
     ]
     await ctx.send("\n".join(print_list))
