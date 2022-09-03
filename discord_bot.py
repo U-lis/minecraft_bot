@@ -9,7 +9,6 @@ from settings import DISCORD_BOT_TOKEN, SERVER_DATA_FILE
 intents = discord.Intents.default()
 intents.message_content = True
 
-# bot = discord.Client(intents=intents)
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 
@@ -65,6 +64,30 @@ async def get_server_list(ctx):
                 ]
             )
         )
+
+
+@bot.command(name="cmd")
+async def help_function(ctx):
+    print_list = [
+        "Hello, I'm a minecraft discord bot.",
+        "I can do following things:\n",
+        "```",
+        "Usage: ![command]\n",
+        "command: ",
+        "  ping                                 : Returns \"pong\" to check discord bot is working",
+        "  server_list                          : Returns all saved server list",
+        "  add_server [IP] [PORT] [NAME] [SEED] : Add new server to discord bot",
+        "    [IP]   : IP address of minecraft server. ",
+        "             This can be either public or private IP.",
+        "    [PORT] : Port number of minecraft server. ",
+        "             `[IP]:[PORT]` is used to connect to server.",
+        "    [NAME] : Name of this minecraft server. ",
+        "             You can identify server by this name.",
+        "    [SEED] : The seed of minecraft server. ",
+        "             This is important information to use various tools.",
+        "```",
+    ]
+    await ctx.send("\n".join(print_list))
 
 
 if __name__ == "__main__":
